@@ -15,7 +15,7 @@ Keterangan:
 
 * **SURABAYA** diberikan IP Tuntap
 
-* **MOJOKERTO** + **MALANG** merupakan **DHCP Server** diberikan **IP DMZ** : `10.151.77.107`
+* **MOJOKERTO** + **MALANG** merupakan **DHCP Server** diberikan **IP DMZ** 
 
 * **MADIUN** dan **PROBOLINGGO** merupakan **WEB Server**
 
@@ -23,9 +23,9 @@ Keterangan:
 
 * **Client** dan **Router** diberikan memori sebesar **96M**
 
-* Jumlah host pada subnet **SIDOARJO 201 Host**
+* Jumlah klien pada subnet **SIDOARJO 200 Host**
 
-* Jumlah host pada subnet **GRESIK 211 Host**
+* Jumlah klien pada subnet **GRESIK 210 Host**
 
 **(B)** Melakukan subnetting dengan VLSM:
 
