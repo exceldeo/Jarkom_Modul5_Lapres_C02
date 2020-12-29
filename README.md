@@ -91,7 +91,7 @@ Lakukan proses routing dari **SURABAYA** ke subnet yang tidak berhubungan secara
 
 ![rute sh](https://user-images.githubusercontent.com/52096462/103275166-20712300-49f6-11eb-9b44-bc6ca462d739.png)
 
-Jalannkan script `roxxx.sh` di **SURABAYA** dan restart network dengan mengetikkan `service networking restart` di setiap UML. Untuk menguji koneksi antara subnet, terlebih dahulu diuji coba dengan mengetikkan `iptables –t nat –A POSTROUTING –o eth0 –j MASQUERADE –s 192.168.0.0/16` pada router **SURABAYA**. IP Tables dapat dimasukkan ke dalam *script*, dalam hal ini, nama script berupa `table1.sh`.
+Jalannkan script `roxxx.sh` di **SURABAYA** dan restart network dengan mengetikkan `service networking restart` di setiap UML. Untuk menguji koneksi antara subnet, terlebih dahulu diuji coba dengan mengetikkan `iptables –t nat –A POSTROUTING –o eth0 –j MASQUERADE –s 192.168.0.0/16` pada router **SURABAYA**. IP Tables dapat dimasukkan ke dalam *script*, dalam hal ini, nama script berupa `ipxxx.sh`.
 
 **(D)** Memberikan IP pada subnet **SIDOARJO** dan **GRESIK** secara dinamis menggunakan DHCP SERVER
 
