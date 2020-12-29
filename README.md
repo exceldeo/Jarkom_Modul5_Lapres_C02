@@ -15,9 +15,7 @@ Keterangan:
 
 * **SURABAYA** diberikan IP Tuntap
 
-* **MALANG** merupakan **DNS Server** diberikan **IP DMZ** : `10.151.77.106`
-
-* **MOJOKERTO** merupakan **DHCP Server** diberikan **IP DMZ** : `10.151.77.107`
+* **MOJOKERTO** + **MALANG** merupakan **DHCP Server** diberikan **IP DMZ** : `10.151.77.107`
 
 * **MADIUN** dan **PROBOLINGGO** merupakan **WEB Server**
 
@@ -25,9 +23,9 @@ Keterangan:
 
 * **Client** dan **Router** diberikan memori sebesar **96M**
 
-* Jumlah host pada subnet **SIDOARJO 200 Host**
+* Jumlah host pada subnet **SIDOARJO 201 Host**
 
-* Jumlah host pada subnet **GRESIK 210 Host**
+* Jumlah host pada subnet **GRESIK 211 Host**
 
 **(B)** Melakukan subnetting dengan VLSM:
 
@@ -37,55 +35,14 @@ Pembuatan Tree:
 
 ![diagram1 (4)](https://user-images.githubusercontent.com/52096462/103269238-fdd80d80-49e7-11eb-9c37-426eca94caed.jpg)
 
- ________ ___________ _________ 
-| Subnet |    Host   | Length  |
-|--------|-----------|---------|
-| A1     | SERVER    | 29      |
-| A2     |  201      | 24      |
-| A3     | 2         | 30      |
-| A4     | 2         | 30      |
-| A5     | 211       | 24      |
-| A6     |  3        | 30      | 
-|Total   | 419       | 23      |
---------------------------------
- ________ ___________ _________ ______________ ________________ ______________ 
-| Subnet | Jumlah IP | Submask |      NID     |     Netmask    | Broadcast ID |
-|--------|-----------|---------|--------------|----------------|--------------|
-| A1     | SERVER    | 29      |10.151.77.104 |255.255.255.248 |10.151.77.111 |
-| A2     |  200      | 24      |192.168.1.0   |255.255.255.0   |192.168.1.255 |
-| A3     | 2         | 30      |192.168.0.0   |255.255.255.252 |192.168.0.3   |
-| A4     | 2         | 30      |192.168.0.4   |255.255.255.252 |192.168.0.7   |
-| A5     | 210       | 24      |192.168.2.0   |255.255.255.0   |192.168.2.255 |
-| A6     | SERVER    | 29      |192.168.0.8   |255.255.255.248 |192.168.0.15  |
--------------------------------------------------------------------------------
+![tabel](https://user-images.githubusercontent.com/52096462/103274774-113da580-49f5-11eb-8121-d3ec6af2773c.png)
+
 
 **(C)** Melakukan Routing
 
 Sintaks untuk **topo.sh**
 
-```
-# Switch
-uml_switch -unix switch1 > /dev/null < /dev/null &
-uml_switch -unix switch2 > /dev/null < /dev/null &
-uml_switch -unix switch3 > /dev/null < /dev/null &
-
-# Router
-xterm -T SURABAYA -e linux ubd0=SURABAYA,jarkom umid=SURABAYA eth0=tuntap,,,10.151.76.53 eth1=daemon,,,switch1 eth2=daemon,,,switch3 eth3=daemon,,,switch2 mem=256M &
-
-# Server switch 2
-xterm -T MALANG -e linux ubd0=MALANG,jarkom umid=MALANG eth0=daemon,,,switch2 mem=160M &
-xterm -T MOJOKERTO -e linux ubd0=MOJOKERTO,jarkom umid=MOJOKERTO eth0=daemon,,,switch2 mem=128M &
-xterm -T TUBAN -e linux ubd0=TUBAN,jarkom umid=TUBAN eth0=daemon,,,switch2 mem=128M &
-
-# Klien switch 1
-xterm -T SIDOARJO -e linux ubd0=SIDOARJO,jarkom umid=SIDOARJO eth0=daemon,,,switch1 mem=64M &
-xterm -T GRESIK -e linux ubd0=GRESIK,jarkom umid=GRESIK eth0=daemon,,,switch1 mem=64M &
-
-# Klien switch 3
-xterm -T BANYUWANGI -e linux ubd0=BANYUWANGI,jarkom umid=BANYUWANGI eth0=daemon,,,switch3 mem=64M &
-xterm -T MADIUN -e linux ubd0=MADIUN,jarkom umid=MADIUN eth0=daemon,,,switch3 mem=64M &
-```
-![Img](https://github.com/riclown/Jarkom_modul5_praktikum_C12/blob/main/img/topo.jpg)
+![4](https://user-images.githubusercontent.com/52096462/103274813-2d414700-49f5-11eb-89bf-76124d4738b9.png)
 
 Lalu  jalankan `bash topo.sh` pada *putty* dan masukkan *username* dan *password* default. Pada router **SURABAYA**, **BATU**, **KEDIRI**  lakukan setting `sysctl` dengan mengetikkan perintah `nano /etc/sysctl.conf`, dan tambahkan `net.ipv4.conf.all.accept_source_route = 1`.
 
@@ -93,161 +50,46 @@ Lalu setting IP pada setiap *interfaces* uml dengan mengetikkan `nano /etc/netwo
 
 **SURABAYA**
 
-```
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet static
-address 10.151.76.54
-netmask 255.255.255.252
-gateway 10.151.76.53
-
-auto eth1 #switch 5
-iface eth1 inet static
-address   192.168.0.1
-netmask 255.255.255.252
-
-auto eth2 #switch 6
-iface eth2 inet static
-address 192.168.0.5
-netmask 255.255.255.252
-
-```
+![5](https://user-images.githubusercontent.com/52096462/103274817-2f0b0a80-49f5-11eb-8fae-dd8519023634.png)
 
 **BATU**
 
-```
-auto lo
-iface lo inet loopback
-
-auto eth0 #switch 5
-iface eth0 inet static
-address 192.168.0.2
-netmask 255.255.255.252 
-gateway 192.168.0.1
-
-auto eth1 #switch 3
-iface eth1 inet static
-address 192.168.1.1
-netmask 255.255.255.0
-
-auto eth2 #switch 2
-iface eth2 inet static
-address 10.151.77.105
-netmask 255.255.255.248
-
-```
+![6](https://user-images.githubusercontent.com/52096462/103274819-2f0b0a80-49f5-11eb-93e6-d17822dc7bac.png)
 
 **KEDIRI**
 
-```
-auto lo
-iface lo inet loopback
-
-auto eth0 #switch 6
-iface eth0 inet static
-address 192.168.0.6
-netmask 255.255.255.252
-gateway 192.168.0.5
-
-auto eth1 #switch 4
-iface eth1 inet static
-address 192.168.2.1
-netmask 255.255.255.0
-
-auto eth2 #switch 1
-iface eth2 inet static
-address 192.168.0.9
-netmask 255.255.255.248
-```
+![7](https://user-images.githubusercontent.com/52096462/103274820-2fa3a100-49f5-11eb-988f-f5f228018217.png)
 
 **MALANG**
 
-```
-auto lo
-iface lo inet loopback
-
-auto eth0 #switch 2
-iface eth0 inet static
-address 10.151.77.106
-netmask 255.255.255.248
-gateway 10.151.77.105
-```
+![8](https://user-images.githubusercontent.com/52096462/103274821-303c3780-49f5-11eb-92fc-f116abb76560.png)
 
 **MOJOKERTO**
 
-```
-auto lo
-iface lo inet loopback
-
-auto eth0 #switch 2
-iface eth0 inet static
-address 10.151.77.107
-netmask 255.255.255.248
-gateway 10.151.77.105
-```
+![9](https://user-images.githubusercontent.com/52096462/103274982-9fb22700-49f5-11eb-966e-b5377892c075.png)
 
 **PROBOLINGGO**
 
-```
-auto lo
-iface lo inet loopback
 
-auto eth0 #switch 1
-iface eth0 inet static
-address 192.168.0.10
-netmask 255.255.255.248
-gateway 192.168.0.9
-```
+![10](https://user-images.githubusercontent.com/52096462/103274983-a04abd80-49f5-11eb-9ff2-f8d437b5ef2b.png)
 
 **MADIUN**
 
-```
-auto lo
-iface lo inet loopback
-
-auto eth0 #switch 1
-iface eth0 inet static
-address 192.168.0.11
-netmask 255.255.255.248
-gateway 192.168.0.9
-```
+![11](https://user-images.githubusercontent.com/52096462/103274984-a0e35400-49f5-11eb-91ea-cb083b2be9f8.png)
 
 **SIDOARJO**
 
-```
-auto lo
-iface lo inet loopback
 
-auto eth0 #switch 3
-iface eth0 inet static
-address 192.168.1.2
-netmask 255.255.255.0
-gateway 192.168.1.1
-```
+![12](https://user-images.githubusercontent.com/52096462/103274985-a17bea80-49f5-11eb-869a-803463ef078d.png)
 
 **GRESIK**
 
-```
-auto lo
-iface lo inet loopback
 
-auto eth0 #switch 4
-iface eth0 inet static
-address 192.168.2.2
-netmask 255.255.255.0
-gateway 192.168.2.1
-```
+![13](https://user-images.githubusercontent.com/52096462/103274987-a17bea80-49f5-11eb-9f9e-53cdd75aecd9.png)
 
 Lakukan proses routing dari **SURABAYA** ke subnet yang tidak berhubungan secara langsung dengan membuat script yang bernama `rute.sh` di **SURABAYA**, dan masukkan sintaks berikut:
 
-```
-route add -net 10.151.77.104 netmask 255.255.255.248 gw 192.168.0.2 #A1
-route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.0.2 #A2
-route add -net 192.168.2.0 netmask 255.255.255.0 gw 192.168.0.6 #A5
-route add -net 192.168.0.8 netmask 255.255.255.248 gw 192.168.0.6 #A6
-```
+![rute sh](https://user-images.githubusercontent.com/52096462/103275166-20712300-49f6-11eb-9b44-bc6ca462d739.png)
 
 Jalannkan script `rute.sh` di **SURABAYA** dan restart network dengan mengetikkan `service networking restart` di setiap UML. Untuk menguji koneksi antara subnet, terlebih dahulu diuji coba dengan mengetikkan `iptables –t nat –A POSTROUTING –o eth0 –j MASQUERADE –s 192.168.0.0/16` pada router **SURABAYA**. IP Tables dapat dimasukkan ke dalam *script*, dalam hal ini, nama script berupa `table1.sh`.
 
@@ -255,37 +97,19 @@ Jalannkan script `rute.sh` di **SURABAYA** dan restart network dengan mengetikka
 
 * Pada **SURABAYA**, **BATU**, **KEDIRI** lakukan instalasi **ISC-DHCP-Relay**. Lakukan perintah `apt-get update` pada ketiga uml tersebut dan masukkan *syntax* `apt-get install isc-dhcp-relay -y`, setelah instalasi selesai, masukkan syntax `nano /etc/default/isc-dhcp-relay`. Sesuaikan `isc-dhcp-relay` seperti pada gambar berikut:
 
-![Img](img/sbydhcp.jpg)
-
-![Img](img/kdrdhcp.jpg)
-
-![Img](img/batudhcp.jpg)
+![14](https://user-images.githubusercontent.com/52096462/103274988-a2148100-49f5-11eb-8c05-d3cd100135c2.png)
+![15](https://user-images.githubusercontent.com/52096462/103274990-a2ad1780-49f5-11eb-9190-b5458552fade.png)
+![16](https://user-images.githubusercontent.com/52096462/103274992-a345ae00-49f5-11eb-9a69-b6c5fe6749cf.png)
 
 Lakukan restart dhcp-server dengan `service isc-dhcp-relay restart`.
 
 * Pada **MOJOKERTO** lakukan instalasi **ISC-DHCP-Server**. Lakukan perintah `apt-get update` pada ketiga uml tersebut dan masukkan *syntax* `apt-get install isc-dhcp-server -y`, setelah instalasi selesai, masukkan syntax `nano /etc/default/isc-dhcp-server`. Sesuaikan `isc-dhcp-server` seperti pada gambar berikut:
 
-![Img](img/mojodhcp.jpg)
+![17](https://user-images.githubusercontent.com/52096462/103274994-a345ae00-49f5-11eb-91ce-61a21ae7d6ca.png)
 
 Berikutnya masukkan *syntax* `nano /etc/dhcp/dhcpd.conf` dan lakukan konfigurasi:
 
-```
-subnet 10.151.77.104 netmask 255.255.255.248 {  
-    option routers 10.151.77.107; 
-}
-    
-subnet 192.168.1.0 netmask 255.255.255.0 {
-    option routers 10.151.77.105;
-    option broadcast-address 10.151.77.111;
-    option domain-name-servers 10.151.77.106;
-}
-
-subnet 192.168.2.0 netmask 255.255.255.0 {
-    option routers 10.151.77.105;
-    option broadcast-address 10.151.77.111;
-    option domain-name-servers 10.151.77.106;
-}
-```
+![17gantinyateksdibawahnya](https://user-images.githubusercontent.com/52096462/103276058-25cf6d00-49f8-11eb-95b5-7efa112dd6d2.PNG)
 
 Lakukan restart dhcp-server dengan `service isc-dhcp-server restart`.
 
@@ -310,23 +134,19 @@ iptables -t nat -F
 
 Masukkan *syntax* iptables berikut pada **SURABAYA** :
 
-```
-iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o eth0 -j SNAT --to-source 10.151.76.54
-```
+![syntax](https://user-images.githubusercontent.com/52096462/103276278-ac844a00-49f8-11eb-96ec-bc9a2a00dbe7.PNG)
 
 Lakukan ping keluar, contohnya di **SURABAYA** dan **MOJOKERTO**
 
-![Img](img/1a.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103276270-aaba8680-49f8-11eb-877e-33762e988e69.PNG)
 
-![Img](img/1b.jpg)
+![2](https://user-images.githubusercontent.com/52096462/103276275-abebb380-49f8-11eb-9ddb-c52a7e70136e.PNG)
 
 ## Soal 2
 
 Masukkan *syntax* iptables berikut pada **SURABAYA** :
 
-```
-iptables -A FORWARD -d 10.151.77.104/29 -i eth0 -p tcp --dport 22 -j DROP
-```
+![syntax](https://user-images.githubusercontent.com/52096462/103276314-c6259180-49f8-11eb-9be5-ff5112805132.PNG)
 
 Install **netcat** pada **MALANG** dengan `apt-get update` dan `apt-get install netcat -y`.
 
@@ -334,83 +154,72 @@ Masukkan `nc -l -p <port>` pada uml **MALANG** dan `nc <ip_malang> <port>` pada 
 
 * Uji 1 `port 23`: (Hanya untuk testing)
 
-![Img](img/2.1.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103276316-c6be2800-49f8-11eb-8330-53f52e3a8678.PNG)
 
 * Uji 2 `port 22`
 
-![Img](img/2.4.jpg)
+![2](https://user-images.githubusercontent.com/52096462/103276319-c756be80-49f8-11eb-954a-cbd12a2781cb.PNG)
 
 ## Soal 3
 
 Masukkan *syntax* iptables pada **MALANG** dan **MOJOKERTO**:
 
-```
-iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j DROP
-```
+![syntax](https://user-images.githubusercontent.com/52096462/103276407-fec56b00-49f8-11eb-86ca-acd0647ea1a7.PNG)
 
 Lakukan ping ke **MALANG** atau **MOJOKERTO** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan `ping 10.151.77.106`, hasilnya salah satu uml (**BATU**) ter-drop.
 
-![Img](img/3.8.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103276400-fc631100-49f8-11eb-86ce-7023b6ede83d.PNG)
+![2](https://user-images.githubusercontent.com/52096462/103276402-fd943e00-49f8-11eb-8339-8c0a49df3e0c.PNG)
+![3](https://user-images.githubusercontent.com/52096462/103276404-fe2cd480-49f8-11eb-81d0-e8b75fad1b51.PNG)
+![4yg kedrop](https://user-images.githubusercontent.com/52096462/103276405-fec56b00-49f8-11eb-8fc4-ab168f07000f.PNG)
 
 ## Soal 4
 
 Masukkan *syntax* iptables pada **MALANG**:
 
-```
-iptables -A INPUT -s 192.168.1.0/24 -m time --timestart 07:00 --timestop 17:00 --weekdays Mon,Tue,Wed,Thu,Fri -j ACCEPT
-iptables -A INPUT -s 192.168.1.0/24 -j REJECT
-```
+![syntax](https://user-images.githubusercontent.com/52096462/103276908-51ebed80-49fa-11eb-9bbe-c40eea208c92.PNG)
 
 Lakukan ping ke **MALANG** dari subnet **SIDOARJO** dengan `ping 10.151.77.106` . Berdasarkan soal "hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin sampai Jumat", maka:
 
-![Img](img/4.2.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103276907-50bac080-49fa-11eb-8e17-1bff7ae03d0e.PNG)
 
 ## Soal 5
 
 Masukkan *syntax* iptables pada **MALANG**:
 
-```
-iptables -A INPUT -s 192.168.2.0/24 -m time --timestart 07:00 --timestop 17:00 -j REJECT
-```
+![syntax](https://user-images.githubusercontent.com/52096462/103276969-7cd64180-49fa-11eb-97fb-cde5a3742f5b.PNG)
+
 
 Lakukan ping ke **MALANG** dari subnet **GRESIK** dengan `ping 10.151.77.106` . Berdasarkan soal "hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap harinya", maka:
 
-![Img](img/5.2.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103276970-7d6ed800-49fa-11eb-83e4-60eaa1b40495.PNG)
 
 ## Soal 6
 
 Masukkan *syntax* iptables pada **SURABAYA**:
 
-```
-iptables -A PREROUTING -t nat -p tcp -d 10.151.77.106 --dport 80 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.0.10:80
-iptables -A PREROUTING -t nat -p tcp -d 10.151.77.106 --dport 80 -j DNAT --to-destination 192.168.0.11:80
-iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.10 --dport 80 -j SNAT --to-source 10.151.77.106:80
-iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.11 --dport 80 -j SNAT --to-source 10.151.77.106:80
-```
+![syntax](https://user-images.githubusercontent.com/52096462/103277007-94adc580-49fa-11eb-95d9-0f4f686bf0c2.PNG)
+
 Install **netcat** pada **PROBOLINGGO** dan **MADIUN** dengan `apt-get update` dan `apt-get install netcat -y`.
 
 Masukkan `nc -l -p <port>` pada uml **PROBOLINGGO** & **MADIUN** dan `nc <ip_malang> <port>` pada putty atau wsl.
 
-![Img](img/6.2.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103277003-937c9880-49fa-11eb-9e70-40f1cd16fad4.PNG)
 
 ## Soal 7
 
 Masukkan *syntax* iptables pada **SURABAYA**:
 
-```
-iptables -A FORWARD -d 10.151.77.104/29 -i eth0 -p tcp --dport 22 -j LOG --log-prefix "FORWARD TCP-DROPPED: "
-iptables -A FORWARD -d 10.151.77.104/29 -i eth0 -p tcp --dport 22 -j DROP #surabaya
-```
+![syntax1](https://user-images.githubusercontent.com/52096462/103277039-ad1de000-49fa-11eb-9d28-431a481615e2.PNG)
 
 Lakukan hal yang sama seperti nomor 2.  Masukkan `nc -l -p <port>` pada uml **MALANG** dan `nc <ip_malang> <port>` pada putty atau wsl. Hasil catatan log dapat dilihat di uml **SURABAYA** atau mengetik `tail /var/log/messages`.
 
-![Img](img/7.1.jpg)
+![1](https://user-images.githubusercontent.com/52096462/103277035-aa22ef80-49fa-11eb-99a1-06dbb9326234.PNG)
 
 Masukkan *syntax* iptables pada **MALANG** dan **MOJOKERTO**:
-```
-iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j LOG --log-prefix "Connection Limit --> DROPPED : "
-iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j DROP
-```
+
+![syntax2](https://user-images.githubusercontent.com/52096462/103277041-adb67680-49fa-11eb-8cd6-cb3ad0d27658.PNG)
+
 Lakukan hal yang sama seperti nomor 3. Lakukan ping ke **MALANG** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan `ping 10.151.77.106`, hasilnya salah satu uml (**GRESIK**) ter-drop. Hasil catatan log dapat dilihat di uml **MALANG** atau mengetik `tail /var/log/messages`.
 
-![Img](img/7.4.jpg)
+![2](https://user-images.githubusercontent.com/52096462/103277037-abecb300-49fa-11eb-99a8-b2490b5fbbfb.PNG)
