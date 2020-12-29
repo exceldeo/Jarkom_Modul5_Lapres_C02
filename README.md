@@ -136,9 +136,9 @@ Masukkan *syntax* iptables berikut pada **SURABAYA** :
 
 ![syntax](https://user-images.githubusercontent.com/52096462/103276278-ac844a00-49f8-11eb-96ec-bc9a2a00dbe7.PNG)
 
-Lakukan ping keluar, contohnya di **SURABAYA** dan **MOJOKERTO**
-
 ![1](https://user-images.githubusercontent.com/52096462/103276270-aaba8680-49f8-11eb-877e-33762e988e69.PNG)
+
+Lakukan ping keluar, contohnya di **SURABAYA** dan **MOJOKERTO**
 
 ![2](https://user-images.githubusercontent.com/52096462/103276275-abebb380-49f8-11eb-9ddb-c52a7e70136e.PNG)
 
@@ -166,7 +166,7 @@ Masukkan *syntax* iptables pada **MALANG** dan **MOJOKERTO**:
 
 ![syntax](https://user-images.githubusercontent.com/52096462/103276407-fec56b00-49f8-11eb-86ca-acd0647ea1a7.PNG)
 
-Lakukan ping ke **MALANG** atau **MOJOKERTO** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan `ping 10.151.77.106`, hasilnya salah satu uml (**BATU**) ter-drop.
+Lakukan ping ke **MALANG** atau **MOJOKERTO** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan ping ke **MOJOKERTO** dengan `ping 10.151.77.27`, hasilnya salah satu uml (**GRESIK**) ter-drop.
 
 ![1](https://user-images.githubusercontent.com/52096462/103276400-fc631100-49f8-11eb-86ce-7023b6ede83d.PNG)
 ![2](https://user-images.githubusercontent.com/52096462/103276402-fd943e00-49f8-11eb-8339-8c0a49df3e0c.PNG)
@@ -179,7 +179,7 @@ Masukkan *syntax* iptables pada **MALANG**:
 
 ![syntax](https://user-images.githubusercontent.com/52096462/103276908-51ebed80-49fa-11eb-9bbe-c40eea208c92.PNG)
 
-Lakukan ping ke **MALANG** dari subnet **SIDOARJO** dengan `ping 10.151.77.106` . Berdasarkan soal "hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin sampai Jumat", maka:
+Lakukan ping ke **MALANG** dari subnet **SIDOARJO** dengan `ping 10.151.77.26` . Berdasarkan soal "hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin sampai Jumat", maka:
 
 ![1](https://user-images.githubusercontent.com/52096462/103276907-50bac080-49fa-11eb-8e17-1bff7ae03d0e.PNG)
 
@@ -190,7 +190,7 @@ Masukkan *syntax* iptables pada **MALANG**:
 ![syntax](https://user-images.githubusercontent.com/52096462/103276969-7cd64180-49fa-11eb-97fb-cde5a3742f5b.PNG)
 
 
-Lakukan ping ke **MALANG** dari subnet **GRESIK** dengan `ping 10.151.77.106` . Berdasarkan soal "hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap harinya", maka:
+Lakukan ping ke **MALANG** dari subnet **GRESIK** dengan `ping 10.151.77.26` . Berdasarkan soal "hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap harinya", maka:
 
 ![1](https://user-images.githubusercontent.com/52096462/103276970-7d6ed800-49fa-11eb-83e4-60eaa1b40495.PNG)
 
@@ -220,6 +220,6 @@ Masukkan *syntax* iptables pada **MALANG** dan **MOJOKERTO**:
 
 ![syntax2](https://user-images.githubusercontent.com/52096462/103277041-adb67680-49fa-11eb-8cd6-cb3ad0d27658.PNG)
 
-Lakukan hal yang sama seperti nomor 3. Lakukan ping ke **MOJOKERTO** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan `ping 10.151.77.27`, hasilnya salah satu uml (**GRESIK**) ter-drop. Hasil catatan log dapat dilihat di uml **MOJOKERTO** atau mengetik `tail /var/log/messages`.
+Lakukan hal yang sama seperti nomor 3. Lakukan ping ke **MOJOKERTO** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan ping ke **MOJOKERTO** dengan`ping 10.151.77.27`, hasilnya salah satu uml (**GRESIK**) ter-drop. Hasil catatan log dapat dilihat di uml **MOJOKERTO** atau mengetik `tail /var/log/messages`.
 
 ![2](https://user-images.githubusercontent.com/52096462/103277037-abecb300-49fa-11eb-99a8-b2490b5fbbfb.PNG)
