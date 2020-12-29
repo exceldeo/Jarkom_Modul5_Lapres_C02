@@ -202,7 +202,7 @@ Masukkan *syntax* iptables pada **SURABAYA**:
 
 Install **netcat** pada **PROBOLINGGO** dan **MADIUN** dengan `apt-get update` dan `apt-get install netcat -y`.
 
-Masukkan `nc -l -p <port>` pada uml **PROBOLINGGO** & **MADIUN** dan `nc <ip_malang> <port>` pada putty atau wsl.
+Masukkan `nc -l -p <port>` pada uml **PROBOLINGGO** & **MADIUN** dan `nc <ip_malang> <port>` pada Gresik.
 
 ![1](https://user-images.githubusercontent.com/52096462/103277003-937c9880-49fa-11eb-9e70-40f1cd16fad4.PNG)
 
@@ -220,6 +220,6 @@ Masukkan *syntax* iptables pada **MALANG** dan **MOJOKERTO**:
 
 ![syntax2](https://user-images.githubusercontent.com/52096462/103277041-adb67680-49fa-11eb-8cd6-cb3ad0d27658.PNG)
 
-Lakukan hal yang sama seperti nomor 3. Lakukan ping ke **MALANG** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan `ping 10.151.77.106`, hasilnya salah satu uml (**GRESIK**) ter-drop. Hasil catatan log dapat dilihat di uml **MALANG** atau mengetik `tail /var/log/messages`.
+Lakukan hal yang sama seperti nomor 3. Lakukan ping ke **MOJOKERTO** dari 4 uml yang berbeda, dalam hal ini yaitu **KEDIRI**, **GRESIK**, **BATU**, **SIDOARJO** melakukan `ping 10.151.77.27`, hasilnya salah satu uml (**GRESIK**) ter-drop. Hasil catatan log dapat dilihat di uml **MOJOKERTO** atau mengetik `tail /var/log/messages`.
 
 ![2](https://user-images.githubusercontent.com/52096462/103277037-abecb300-49fa-11eb-99a8-b2490b5fbbfb.PNG)
